@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_application_1/network/response/get_user_response.dart';
+import 'package:flutter_application_1/network/response/login_response.dart';
 
 class ApiClient {
   final Dio _dio = Dio();
 
-  Future<Response> login(String email, String password) async {
+  Future<LoginResponse> login(String email, String password) async {
     try {
       Response response = await _dio.post('https://reqres.in/api/login',
           data: {'email': email, 'password': password},
@@ -16,7 +17,7 @@ class ApiClient {
           ));
       if (response.statusCode == 200) {
         //returns the successful user data json object
-        return response.data;
+        return LoginResponse.fromJson(response.data);
       } else {
         throw Exception('Failed to login');
       }
